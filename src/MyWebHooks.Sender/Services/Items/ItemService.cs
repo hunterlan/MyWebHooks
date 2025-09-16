@@ -1,6 +1,6 @@
 ﻿using MyWebHooks.Sender.Models;
 
-namespace MyWebHooks.Sender.Services;
+namespace MyWebHooks.Sender.Services.Items;
 
 public class ItemService : IItemService
 {
