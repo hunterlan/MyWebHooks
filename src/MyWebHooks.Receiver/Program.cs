@@ -1,23 +1,46 @@
 using System.Net;
 using MyWebHooks.Receiver.DTOs;
+using Serilog;
 
 List<EventDto> events = [];
 const string webhookUrlResponse = "https://localhost:7202/api/webhooks/item-add";
-var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddHttpClient();
-var app = builder.Build();
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
-await SubscribeToWebHook(app.Services, webhookUrlResponse);
-
-app.MapGet("/api/events", () => events);
-
-app.MapPost("/api/webhooks/item-add", (EventDto receivedEvent) =>
+try
 {
-    events.Add(receivedEvent);
-    return Results.Accepted();
-});
+    var builder = WebApplication.CreateBuilder(args);
+    builder.Services.AddSerilog((services, lc) =>
+    {
+        lc.ReadFrom.Configuration(builder.Configuration)
+            .ReadFrom.Services(services)
+            .Enrich.FromLogContext();
+    });
+    builder.Services.AddHttpClient();
+    var app = builder.Build();
 
-app.Run();
+    await SubscribeToWebHook(app.Services, webhookUrlResponse);
+
+    app.MapGet("/api/events", () => events);
+
+    app.MapPost("/api/webhooks/item-add", (EventDto receivedEvent, ILogger<Program> logger) =>
+    {
+        events.Add(receivedEvent);
+        logger.LogInformation("Received event {eventType}", receivedEvent.EventName);
+        return Results.Accepted();
+    });
+
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, $"Application start-up failed. Reason: {ex.Message}");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
 
 static async Task SubscribeToWebHook(IServiceProvider serviceProvider, string url)
 {
