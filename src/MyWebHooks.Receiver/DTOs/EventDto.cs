@@ -2,4 +2,4 @@
 
 namespace MyWebHooks.Receiver.DTOs;
 
-public record EventDto(SubEventType EventName, string Payload);
+public record EventDto(string Id, DateTime Timestamp, SubEventType EventType, string Payload);

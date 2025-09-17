@@ -27,7 +27,7 @@ try
     app.MapPost("/api/webhooks/item-add", (EventDto receivedEvent, ILogger<Program> logger) =>
     {
         events.Add(receivedEvent);
-        logger.LogInformation("Received event {eventType}", receivedEvent.EventName);
+        logger.LogInformation("Received event {eventType}", receivedEvent.EventType);
         return Results.Accepted();
     });
 
@@ -56,4 +56,6 @@ static async Task SubscribeToWebHook(IServiceProvider serviceProvider, string ur
     {
         throw new Exception("Can't subscribe to webhook");
     }
+
+    Log.Information("Subscribed to webhook.");
 }

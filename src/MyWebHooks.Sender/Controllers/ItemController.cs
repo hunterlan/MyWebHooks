@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Threading.Channels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -18,14 +19,16 @@ namespace MyWebHooks.Sender.Controllers
         private readonly IItemService _itemService;
         private readonly ISubscriptionService _subscriptionService;
         private readonly IEventService _eventService;
+        private readonly Channel<SenderChannelRequest> _channel;
 
         public ItemController(IItemService itemService, ISubscriptionService subscriptionService, 
-            IEventService eventService, ILogger<ItemController> logger)
+            IEventService eventService, ILogger<ItemController> logger, Channel<SenderChannelRequest> channel)
         {
             _itemService = itemService;
             _subscriptionService = subscriptionService;
             _eventService = eventService;
             _logger = logger;
+            _channel = channel;
         }
         
         [HttpGet]
@@ -35,19 +38,21 @@ namespace MyWebHooks.Sender.Controllers
         }
 
         [HttpPost(Name = "PostItem")]
-        public async Task<IActionResult> Post([FromBody] Item item)
+        public async Task<IActionResult> Post([FromBody] Item item, CancellationToken token)
         {
             try
             {
                 item.Id = Guid.CreateVersion7().ToString();
                 _itemService.AddItem(item);
                 _logger.LogInformation("Item {ItemId} has been added", item.Id);
-                //TODO: Wrap with try catch
-                //TODO: Think about how to launch it after returning a status code to a client
+
                 var serializedItem = JsonSerializer.Serialize(item);
+                var createdEvent = _eventService.Create(serializedItem, SubEventType.ItemAdded);
                 var subscriptions = _subscriptionService.GetAllByEventType(SubEventType.ItemAdded);
-                var eventId = _eventService.Create(serializedItem, SubEventType.ItemAdded);
-                var sendersList = await _eventService.SendAsync(eventId, subscriptions);
+                foreach (var subscription in subscriptions)
+                {
+                    await _channel.Writer.WriteAsync(new SenderChannelRequest(subscription, createdEvent), token);
+                }
 
                 return CreatedAtAction("Post", item);
             }
