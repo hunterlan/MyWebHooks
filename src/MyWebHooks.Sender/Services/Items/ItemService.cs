@@ -12,7 +12,7 @@ public class ItemService : IItemService
     {
         if (_items.FirstOrDefault(i => i.Id == item.Id) != null)
         {
-            throw new Exception("Item already exists");
+            throw new ArgumentException("Item already exists");
         }
         
         _items.Add(item);

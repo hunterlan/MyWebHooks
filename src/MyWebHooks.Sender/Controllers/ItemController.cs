@@ -14,15 +14,18 @@ namespace MyWebHooks.Sender.Controllers
     [ApiController]
     public class ItemController : ControllerBase
     {
+        private readonly ILogger<ItemController> _logger;
         private readonly IItemService _itemService;
         private readonly ISubscriptionService _subscriptionService;
         private readonly IEventService _eventService;
 
-        public ItemController(IItemService itemService, ISubscriptionService subscriptionService, IEventService eventService)
+        public ItemController(IItemService itemService, ISubscriptionService subscriptionService, 
+            IEventService eventService, ILogger<ItemController> logger)
         {
             _itemService = itemService;
             _subscriptionService = subscriptionService;
             _eventService = eventService;
+            _logger = logger;
         }
         
         [HttpGet]
@@ -32,23 +35,31 @@ namespace MyWebHooks.Sender.Controllers
         }
 
         [HttpPost(Name = "PostItem")]
-        public IActionResult Post([FromBody] Item item)
+        public async Task<IActionResult> Post([FromBody] Item item)
         {
             try
             {
                 item.Id = Guid.CreateVersion7().ToString();
                 _itemService.AddItem(item);
+                _logger.LogInformation("Item {ItemId} has been added", item.Id);
                 //TODO: Wrap with try catch
                 //TODO: Think about how to launch it after returning a status code to a client
                 var serializedItem = JsonSerializer.Serialize(item);
                 var subscriptions = _subscriptionService.GetAllByEventType(SubEventType.ItemAdded);
                 var eventId = _eventService.Create(serializedItem, SubEventType.ItemAdded);
-                var sendersList = _eventService.SendAsync(eventId, subscriptions);
+                var sendersList = await _eventService.SendAsync(eventId, subscriptions);
+
                 return CreatedAtAction("Post", item);
+            }
+            catch (ArgumentException aex)
+            {
+                _logger.LogWarning("Item {ItemId} has not been added. Reason: {message}", item.Id, aex.Message);
+                return BadRequest(aex.Message);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError(ex, ex.Message);
+                return Problem(ex.Message);
             }
         }
     }
