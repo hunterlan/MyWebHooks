@@ -6,6 +6,10 @@ namespace MyWebHooks.Sender.Services.Subscriptions;
 public class SubscriptionService : ISubscriptionService
 {
     private readonly List<WebhookSubscription> _subscriptions = [];
+
+    public IEnumerable<WebhookSubscription> GetAllByEventType(SubEventType eventType) => 
+        _subscriptions.Where(x => x.EventType == eventType);
+
     public string Create(WebhookSubscriptionDto subscription)
     {
         WebhookSubscription newSubscription = new()
