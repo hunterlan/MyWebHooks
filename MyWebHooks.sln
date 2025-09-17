@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWebHooks.Sender", "src\MyWebHooks.Sender\MyWebHooks.Sender.csproj", "{F50CF584-1862-47EB-8580-24C9461765CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWebHooks.Receiver", "MyWebHooks.Receiver\MyWebHooks.Receiver.csproj", "{A890C005-28C6-4E2E-B07C-B70AA5A9D505}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{F50CF584-1862-47EB-8580-24C9461765CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F50CF584-1862-47EB-8580-24C9461765CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F50CF584-1862-47EB-8580-24C9461765CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A890C005-28C6-4E2E-B07C-B70AA5A9D505}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A890C005-28C6-4E2E-B07C-B70AA5A9D505}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A890C005-28C6-4E2E-B07C-B70AA5A9D505}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A890C005-28C6-4E2E-B07C-B70AA5A9D505}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
