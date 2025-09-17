@@ -22,8 +22,8 @@ public class EventService : IEventService
         _eventRepository = eventRepository;
         subscriptionEventRepository = subscriptionEventRepository;
     }
-    
-    public string Create(string payload, SubEventType type)
+
+    public EventDto Create(string payload, SubEventType type)
     {
         if (string.IsNullOrWhiteSpace(payload))
         {
@@ -39,10 +39,11 @@ public class EventService : IEventService
         };
         
         _eventRepository.Create(newEvent);
-        return newEvent.Id;
+        
+        return new EventDto(newEvent.Id, newEvent.Timestamp, newEvent.Type, newEvent.Payload);
     }
 
-    public async Task<IEnumerable<WebhookSubscriptionEvent>> SendAsync(string eventId,
+    /*public async Task<IEnumerable<WebhookSubscriptionEvent>> SendAsync(string eventId,
         IEnumerable<WebhookSubscription> subscriptions)
     {
         var newSubEvents = new List<WebhookSubscriptionEvent>();
@@ -61,7 +62,7 @@ public class EventService : IEventService
         foreach (var subscription in subscriptions)
         {
             if (subscription.EventType != @event.Type) continue;
-            
+
             WebhookSubscriptionEvent newSubscriptionEvent = new()
             {
                 EventId = eventId,
@@ -69,13 +70,14 @@ public class EventService : IEventService
                 RetryCount = 0,
                 IsSuccessful = true
             };
-                
+
             var retryCount = 0;
             var retryDelaySeconds = StartRetryDelaySec;
             while (retryCount < MaxRetries)
             {
                 var eventDto = new EventDto(subscription.EventType, @event.Payload);
-                using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(subscription.CallbackUrl, eventDto);
+                using HttpResponseMessage response =
+                    await _httpClient.PostAsJsonAsync(subscription.CallbackUrl, eventDto);
                 if (response.IsSuccessStatusCode)
                 {
                     break;
@@ -91,11 +93,11 @@ public class EventService : IEventService
             {
                 newSubscriptionEvent.IsSuccessful = false;
             }
-            
+
             newSubEvents.Add(newSubscriptionEvent);
         }
         
         _subscriptionEventRepository.CreateMany(newSubEvents);
         return newSubEvents;
-    }
+    }*/
 }
