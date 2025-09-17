@@ -26,7 +26,7 @@ namespace MyWebHooks.Sender.Controllers
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(ex.Message);
+                return Conflict(ex.Message);
             }
             catch (Exception)
             {

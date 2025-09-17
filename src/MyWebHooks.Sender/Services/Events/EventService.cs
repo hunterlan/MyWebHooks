@@ -1,4 +1,5 @@
-﻿using MyWebHooks.Sender.Models;
+﻿using MyWebHooks.Sender.DTOs;
+using MyWebHooks.Sender.Models;
 
 namespace MyWebHooks.Sender.Services.Events;
 
@@ -68,7 +69,8 @@ public class EventService : IEventService
             var retryDelaySeconds = StartRetryDelaySec;
             while (retryCount < MaxRetries)
             {
-                using HttpResponseMessage response = await _httpClient.PostAsync(subscription.CallbackUrl, new StringContent(@event.Payload));
+                var eventDto = new EventDto(subscription.EventType, @event.Payload);
+                using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(subscription.CallbackUrl, eventDto);
                 if (response.IsSuccessStatusCode)
                 {
                     break;
