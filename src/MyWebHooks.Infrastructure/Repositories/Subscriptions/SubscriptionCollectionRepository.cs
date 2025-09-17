@@ -1,0 +1,37 @@
+using MyWebHooks.Infrastructure.Models;
+
+namespace MyWebHooks.Infrastructure.Repositories.Subscriptions;
+
+public class SubscriptionCollectionRepository : ISubscriptionRepository
+{
+    private static readonly List<WebhookSubscription> _subscriptions = [];
+    
+    public IEnumerable<WebhookSubscription> GetAllByEventType(SubEventType eventType)
+    {
+        return _subscriptions.Where(s => s.EventType == eventType);
+    }
+
+    public string Create(WebhookSubscription subscription)
+    {
+        if (_subscriptions.Any(s => s.Id == subscription.Id))
+        {
+            throw new ArgumentException("Subscription already exists");
+        }
+        
+        _subscriptions.Add(subscription);
+        return subscription.Id;
+    }
+
+    public void CreateMany(IEnumerable<WebhookSubscription> subscriptions)
+    {
+        foreach (var subscription in subscriptions)
+        {
+            if (_subscriptions.Any(s => s.Id == subscription.Id))
+            {
+                throw new ArgumentException("Subscription already exists");
+            }
+        
+            _subscriptions.Add(subscription);
+        }
+    }
+}

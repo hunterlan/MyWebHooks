@@ -1,20 +1,20 @@
-﻿using MyWebHooks.Sender.Models;
+﻿using MyWebHooks.Infrastructure.Models;
+using MyWebHooks.Infrastructure.Repositories.Items;
 
 namespace MyWebHooks.Sender.Services.Items;
 
 public class ItemService : IItemService
 {
-    private readonly List<Item> _items = [];
+    private IItemRepository _itemRepository;
+    public ItemService(IItemRepository itemRepository)
+    {
+        _itemRepository = itemRepository;
+    }
     
-    public IEnumerable<Item> GetItems() => _items;
+    public IEnumerable<Item> GetItems() => _itemRepository.GetItems();
 
     public void AddItem(Item item)
     {
-        if (_items.FirstOrDefault(i => i.Id == item.Id) != null)
-        {
-            throw new Exception("Item already exists");
-        }
-        
-        _items.Add(item);
+        _itemRepository.AddItem(item);
     }
 }
