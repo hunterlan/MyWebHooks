@@ -23,21 +23,4 @@ public class SubscriptionRepository(MyDbContext context) : ISubscriptionReposito
         context.SaveChanges();
         return subscription.Id;
     }
-
-    public void CreateMany(IEnumerable<WebhookSubscription> subscriptions)
-    {
-        foreach (var subscription in subscriptions)
-        {
-            var idExists = context.WebhookSubscription.Any(s => s.Id == subscription.Id);
-
-            if (idExists)
-            {
-                throw new ArgumentException("Subscription already exists");
-            }
-        
-            context.WebhookSubscription.Add(subscription);
-        }
-
-        context.SaveChanges();
-    }
 }

@@ -21,17 +21,4 @@ public class SubscriptionCollectionRepository : ISubscriptionRepository
         _subscriptions.Add(subscription);
         return subscription.Id;
     }
-
-    public void CreateMany(IEnumerable<WebhookSubscription> subscriptions)
-    {
-        foreach (var subscription in subscriptions)
-        {
-            if (_subscriptions.Any(s => s.Id == subscription.Id))
-            {
-                throw new ArgumentException("Subscription already exists");
-            }
-        
-            _subscriptions.Add(subscription);
-        }
-    }
 }
