@@ -4,6 +4,6 @@ namespace MyWebHooks.Infrastructure.Repositories.Subscriptions;
 
 public interface ISubscriptionRepository
 {
-    public IEnumerable<WebhookSubscription> GetAllByEventType(SubEventType eventType);
-    string Create(WebhookSubscription subscription);
+    Task<IEnumerable<WebhookSubscription>> GetAllByEventType(SubEventType eventType);
+    Task<string> Create(WebhookSubscription subscription);
 }

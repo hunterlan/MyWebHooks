@@ -4,6 +4,6 @@ namespace MyWebHooks.Infrastructure.Repositories.Events;
 
 public interface IEventRepository
 {
-    string Create(WebhookEvent eventData);
-    WebhookEvent? Get(string eventId);
+    Task<string> Create(WebhookEvent eventData);
+    Task<WebhookEvent?> Get(string eventId);
 }

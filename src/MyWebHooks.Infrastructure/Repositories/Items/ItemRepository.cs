@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using MyWebHooks.Infrastructure.DAL;
 using MyWebHooks.Infrastructure.Models;
 
@@ -5,17 +6,18 @@ namespace MyWebHooks.Infrastructure.Repositories.Items;
 
 public class ItemRepository(MyDbContext context) : IItemRepository
 {
-    public IEnumerable<Item> GetItems()
+    public async Task<IEnumerable<Item>> GetItems()
     {
-        return context.Item;
+        return await context.Item.ToListAsync();
     }
 
-    public void AddItem(Item item)
+    public async Task AddItem(Item item)
     {
         if (context.Item.Any(i => i.Id == item.Id))
         {
             throw new Exception("Item already exists");
         }
-        context.Item.Add(item);
+        await context.Item.AddAsync(item);
+        await context.SaveChangesAsync();
     }
 }

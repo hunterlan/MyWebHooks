@@ -4,6 +4,6 @@ namespace MyWebHooks.Infrastructure.Repositories.Items;
 
 public interface IItemRepository
 {
-    IEnumerable<Item> GetItems();
-    void AddItem(Item item);
+    Task<IEnumerable<Item>> GetItems();
+    Task AddItem(Item item);
 }

@@ -6,7 +6,7 @@ public class EventCollectionRepository : IEventRepository
 {
     private static readonly List<WebhookEvent> _events = [];
     
-    public string Create(WebhookEvent eventData)
+    public async Task<string> Create(WebhookEvent eventData)
     {
         if (string.IsNullOrWhiteSpace(eventData.Payload))
         {
@@ -15,11 +15,11 @@ public class EventCollectionRepository : IEventRepository
         
         _events.Add(eventData);
         
-        return eventData.Id;
+        return await Task.FromResult(eventData.Id);
     }
 
-    public WebhookEvent? Get(string eventId)
+    public async Task<WebhookEvent?> Get(string eventId)
     {
-        return  _events.FirstOrDefault(e => e.Id == eventId);
+        return _events.FirstOrDefault(e => e.Id == eventId);
     }
 }

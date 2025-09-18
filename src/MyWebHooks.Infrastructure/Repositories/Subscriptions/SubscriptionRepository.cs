@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using MyWebHooks.Infrastructure.DAL;
 using MyWebHooks.Infrastructure.Models;
 
@@ -5,12 +6,12 @@ namespace MyWebHooks.Infrastructure.Repositories.Subscriptions;
 
 public class SubscriptionRepository(MyDbContext context) : ISubscriptionRepository
 {
-    public IEnumerable<WebhookSubscription> GetAllByEventType(SubEventType eventType)
+    public async Task<IEnumerable<WebhookSubscription>> GetAllByEventType(SubEventType eventType)
     {
-        return context.WebhookSubscription.Where(s => s.EventType == eventType);        
+        return await context.WebhookSubscription.Where(s => s.EventType == eventType).ToListAsync();        
     }
 
-    public string Create(WebhookSubscription subscription)
+    public async Task<string> Create(WebhookSubscription subscription)
     {
         var idExists = context.WebhookSubscription.Any(s => s.Id == subscription.Id);
 
@@ -19,8 +20,8 @@ public class SubscriptionRepository(MyDbContext context) : ISubscriptionReposito
             throw new ArgumentException("Subscription already exists");
         }
         
-        context.WebhookSubscription.Add(subscription);
-        context.SaveChanges();
+        await context.WebhookSubscription.AddAsync(subscription);
+        await context.SaveChangesAsync();
         return subscription.Id;
     }
 }
