@@ -15,7 +15,6 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateBootstrapLogger();
 
-
 try
 {
     var builder = WebApplication.CreateBuilder(args);
@@ -39,7 +38,7 @@ try
     
     var connectionString = builder.Configuration.GetConnectionString("DefaultDatabase");
 
-    if (connectionString != null && connectionString.Length > 0)
+    if (connectionString != null && !string.IsNullOrWhiteSpace(connectionString))
     {
         builder.Services.AddDbContext<MyDbContext>(options =>
             options.UseSqlServer(connectionString)
@@ -51,6 +50,7 @@ try
     }
     else
     {
+        Log.Warning("Application data will be stored in-memory! Please, specify parameter DefaultDatabase in configuration.");
         builder.Services.AddScoped<IItemRepository, ItemCollectionRepository>();
         builder.Services.AddScoped<IEventRepository, EventCollectionRepository>();
         builder.Services.AddScoped<ISubscriptionRepository, SubscriptionCollectionRepository>();
