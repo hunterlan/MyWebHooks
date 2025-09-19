@@ -1,5 +1,8 @@
-﻿using MyWebHooks.Sender.DTOs;
-using MyWebHooks.Sender.Models;
+﻿using MyWebHooks.Infrastructure.Models;
+using MyWebHooks.Infrastructure.Repositories.Events;
+using MyWebHooks.Infrastructure.Repositories.SubscriptionEvents;
+using MyWebHooks.Infrastructure.Repositories.Subscriptions;
+using MyWebHooks.Sender.DTOs;
 
 namespace MyWebHooks.Sender.Services.Events;
 
@@ -8,14 +11,16 @@ public class EventService : IEventService
     private const int StartRetryDelaySec = 3;
     private const int MaxRetries = 3;
     private const int MaxTimeout = 10;
-    private readonly List<WebhookEvent> _events = [];
-    private readonly List<WebhookSubscriptionEvent> _subscriptionEvents = [];
     private readonly HttpClient _httpClient;
+    private readonly IEventRepository _eventRepository;
+    private readonly ISubscriptionEventRepository  _subscriptionEventRepository;
 
-    public EventService(HttpClient httpClient)
+    public EventService(HttpClient httpClient, IEventRepository eventRepository, ISubscriptionEventRepository subscriptionEventRepository)
     {
         _httpClient = httpClient;
         _httpClient.Timeout = TimeSpan.FromSeconds(MaxTimeout);
+        _eventRepository = eventRepository;
+        subscriptionEventRepository = subscriptionEventRepository;
     }
 
     public EventDto Create(string payload, SubEventType type)
@@ -32,8 +37,8 @@ public class EventService : IEventService
             Type = type,
             Timestamp = DateTime.UtcNow,
         };
-
-        _events.Add(newEvent);
+        
+        _eventRepository.Create(newEvent);
         
         return new EventDto(newEvent.Id, newEvent.Timestamp, newEvent.Type, newEvent.Payload);
     }
@@ -47,8 +52,8 @@ public class EventService : IEventService
             throw new ArgumentException("Id cannot be null or empty.", nameof(eventId));
         }
 
-        var @event = _events.FirstOrDefault(e => e.Id == eventId);
-
+        var @event = _eventRepository.Get(eventId);
+        
         if (@event is null)
         {
             throw new ArgumentException($"Event with id {eventId} does not exist.", nameof(eventId));
@@ -91,8 +96,8 @@ public class EventService : IEventService
 
             newSubEvents.Add(newSubscriptionEvent);
         }
-
-        _subscriptionEvents.AddRange(newSubEvents);
+        
+        _subscriptionEventRepository.CreateMany(newSubEvents);
         return newSubEvents;
     }*/
 }

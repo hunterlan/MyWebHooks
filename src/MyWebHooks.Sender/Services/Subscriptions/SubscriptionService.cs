@@ -1,14 +1,20 @@
-﻿using MyWebHooks.Sender.DTOs;
-using MyWebHooks.Sender.Models;
+﻿using MyWebHooks.Infrastructure.Models;
+using MyWebHooks.Infrastructure.Repositories.Subscriptions;
+using MyWebHooks.Sender.DTOs;
 
 namespace MyWebHooks.Sender.Services.Subscriptions;
 
 public class SubscriptionService : ISubscriptionService
 {
-    private readonly List<WebhookSubscription> _subscriptions = [];
+    private ISubscriptionRepository  _subscriptionRepository;
+
+    public SubscriptionService(ISubscriptionRepository subscriptionRepository)
+    {
+        _subscriptionRepository = subscriptionRepository;
+    }
 
     public IEnumerable<WebhookSubscription> GetAllByEventType(SubEventType eventType) => 
-        _subscriptions.Where(x => x.EventType == eventType);
+        _subscriptionRepository.GetAllByEventType(eventType);
 
     public string Create(WebhookSubscriptionDto subscription)
     {
@@ -21,12 +27,7 @@ public class SubscriptionService : ISubscriptionService
             UniqueName = subscription.UniqueName,
         };
         
-        if (_subscriptions.Any(s => s.Equals(newSubscription)))
-        {
-            throw new ArgumentException("Subscription already exists");
-        }
-        
-        _subscriptions.Add(newSubscription);
-        return newSubscription.Id;
+        var id = _subscriptionRepository.Create(newSubscription);
+        return id;
     }
 }

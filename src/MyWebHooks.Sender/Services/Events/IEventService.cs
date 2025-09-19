@@ -1,5 +1,5 @@
-﻿using MyWebHooks.Sender.DTOs;
-using MyWebHooks.Sender.Models;
+﻿using MyWebHooks.Infrastructure.Models;
+using MyWebHooks.Sender.DTOs;
 
 namespace MyWebHooks.Sender.Services.Events;
 

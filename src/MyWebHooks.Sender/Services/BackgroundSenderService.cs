@@ -1,6 +1,6 @@
 ﻿using System.Threading.Channels;
+using MyWebHooks.Infrastructure.Models;
 using MyWebHooks.Sender.DTOs;
-using MyWebHooks.Sender.Models;
 
 namespace MyWebHooks.Sender.Services;
 

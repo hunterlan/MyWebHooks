@@ -1,4 +1,4 @@
-﻿using MyWebHooks.Sender.Models;
+﻿using MyWebHooks.Infrastructure.Models;
 
 namespace MyWebHooks.Sender.DTOs;
 

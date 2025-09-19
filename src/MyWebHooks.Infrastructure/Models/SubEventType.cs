@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MyWebHooks.Sender.Models;
+namespace MyWebHooks.Infrastructure.Models;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum SubEventType

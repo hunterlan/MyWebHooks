@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyWebHooks.Sender.Models;
+namespace MyWebHooks.Infrastructure.Models;
 
 public class Item
 {
