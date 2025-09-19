@@ -27,7 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\MyWebHooks.Infrastructure\MyWebHooks.Infrastructure.csproj" />
+      <ProjectReference Include="..\MyWebHooks.Sender.Infrastructure\MyWebHooks.Sender.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWebHooks.Sender", "src\My
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWebHooks.Receiver", "src\MyWebHooks.Receiver\MyWebHooks.Receiver.csproj", "{A890C005-28C6-4E2E-B07C-B70AA5A9D505}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWebHooks.Infrastructure", "src\MyWebHooks.Infrastructure\MyWebHooks.Infrastructure.csproj", "{2B901E1C-C0C0-4718-B279-1933FC305FAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWebHooks.Sender.Infrastructure", "src\MyWebHooks.Sender.Infrastructure\MyWebHooks.Sender.Infrastructure.csproj", "{2B901E1C-C0C0-4718-B279-1933FC305FAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

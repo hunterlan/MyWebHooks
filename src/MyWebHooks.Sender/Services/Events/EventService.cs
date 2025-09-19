@@ -1,7 +1,7 @@
-﻿using MyWebHooks.Infrastructure.Models;
-using MyWebHooks.Infrastructure.Repositories.Events;
-using MyWebHooks.Infrastructure.Repositories.SubscriptionEvents;
-using MyWebHooks.Infrastructure.Repositories.Subscriptions;
+﻿using MyWebHooks.Sender.Infrastructure.Models;
+using MyWebHooks.Sender.Infrastructure.Repositories.Events;
+using MyWebHooks.Sender.Infrastructure.Repositories.SubscriptionEvents;
+using MyWebHooks.Sender.Infrastructure.Repositories.Subscriptions;
 using MyWebHooks.Sender.DTOs;
 
 namespace MyWebHooks.Sender.Services.Events;

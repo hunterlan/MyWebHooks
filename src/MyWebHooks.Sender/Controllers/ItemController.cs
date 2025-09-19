@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Threading.Channels;
 using Microsoft.AspNetCore.Mvc;
-using MyWebHooks.Infrastructure.Models;
+using MyWebHooks.Sender.Infrastructure.Models;
 using MyWebHooks.Sender.Services;
 using MyWebHooks.Sender.Services.Events;
 using MyWebHooks.Sender.Services.Items;

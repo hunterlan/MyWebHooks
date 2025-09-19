@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using MyWebHooks.Infrastructure.DAL;
-using MyWebHooks.Infrastructure.Repositories.Events;
-using MyWebHooks.Infrastructure.Repositories.Items;
-using MyWebHooks.Infrastructure.Repositories.SubscriptionEvents;
-using MyWebHooks.Infrastructure.Repositories.Subscriptions;
+using MyWebHooks.Sender.Infrastructure.DAL;
+using MyWebHooks.Sender.Infrastructure.Repositories.Events;
+using MyWebHooks.Sender.Infrastructure.Repositories.Items;
+using MyWebHooks.Sender.Infrastructure.Repositories.SubscriptionEvents;
+using MyWebHooks.Sender.Infrastructure.Repositories.Subscriptions;
 using System.Threading.Channels;
 using MyWebHooks.Sender.Services;
 using MyWebHooks.Sender.Services.Events;

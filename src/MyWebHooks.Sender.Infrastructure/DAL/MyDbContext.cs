@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using MyWebHooks.Infrastructure.Models;
+using MyWebHooks.Sender.Infrastructure.Models;
 
-namespace MyWebHooks.Infrastructure.DAL;
+namespace MyWebHooks.Sender.Infrastructure.DAL;
 
 public class MyDbContext : DbContext
 {

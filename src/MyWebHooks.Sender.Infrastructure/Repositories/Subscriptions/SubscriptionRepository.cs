@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using MyWebHooks.Infrastructure.DAL;
-using MyWebHooks.Infrastructure.Models;
+using MyWebHooks.Sender.Infrastructure.DAL;
+using MyWebHooks.Sender.Infrastructure.Models;
 
-namespace MyWebHooks.Infrastructure.Repositories.Subscriptions;
+namespace MyWebHooks.Sender.Infrastructure.Repositories.Subscriptions;
 
 public class SubscriptionRepository(MyDbContext context) : ISubscriptionRepository
 {

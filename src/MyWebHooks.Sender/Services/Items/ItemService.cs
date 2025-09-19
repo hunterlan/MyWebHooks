@@ -1,5 +1,5 @@
-﻿using MyWebHooks.Infrastructure.Models;
-using MyWebHooks.Infrastructure.Repositories.Items;
+﻿using MyWebHooks.Sender.Infrastructure.Models;
+using MyWebHooks.Sender.Infrastructure.Repositories.Items;
 
 namespace MyWebHooks.Sender.Services.Items;
 

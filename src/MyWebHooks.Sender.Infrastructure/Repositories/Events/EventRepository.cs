@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using MyWebHooks.Infrastructure.DAL;
-using MyWebHooks.Infrastructure.Models;
+using MyWebHooks.Sender.Infrastructure.DAL;
+using MyWebHooks.Sender.Infrastructure.Models;
 
-namespace MyWebHooks.Infrastructure.Repositories.Events;
+namespace MyWebHooks.Sender.Infrastructure.Repositories.Events;
 
 public class EventRepository(MyDbContext context) : IEventRepository
 {

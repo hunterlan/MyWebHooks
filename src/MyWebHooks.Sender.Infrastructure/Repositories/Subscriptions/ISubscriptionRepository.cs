@@ -1,6 +1,6 @@
-using MyWebHooks.Infrastructure.Models;
+using MyWebHooks.Sender.Infrastructure.Models;
 
-namespace MyWebHooks.Infrastructure.Repositories.Subscriptions;
+namespace MyWebHooks.Sender.Infrastructure.Repositories.Subscriptions;
 
 public interface ISubscriptionRepository
 {

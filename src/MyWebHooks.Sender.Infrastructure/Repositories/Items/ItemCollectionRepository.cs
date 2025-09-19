@@ -1,6 +1,6 @@
-using MyWebHooks.Infrastructure.Models;
+using MyWebHooks.Sender.Infrastructure.Models;
 
-namespace MyWebHooks.Infrastructure.Repositories.Items;
+namespace MyWebHooks.Sender.Infrastructure.Repositories.Items;
 
 public class ItemCollectionRepository : IItemRepository
 {

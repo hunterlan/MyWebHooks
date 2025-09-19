@@ -1,5 +1,5 @@
-﻿using MyWebHooks.Infrastructure.Models;
-using MyWebHooks.Infrastructure.Repositories.Subscriptions;
+﻿using MyWebHooks.Sender.Infrastructure.Models;
+using MyWebHooks.Sender.Infrastructure.Repositories.Subscriptions;
 using MyWebHooks.Sender.DTOs;
 
 namespace MyWebHooks.Sender.Services.Subscriptions;

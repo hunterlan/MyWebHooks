@@ -1,6 +1,6 @@
-using MyWebHooks.Infrastructure.Models;
+using MyWebHooks.Sender.Infrastructure.Models;
 
-namespace MyWebHooks.Infrastructure.Repositories.SubscriptionEvents;
+namespace MyWebHooks.Sender.Infrastructure.Repositories.SubscriptionEvents;
 
 public interface ISubscriptionEventRepository
 {
