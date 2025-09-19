@@ -11,10 +11,7 @@ public class ItemService : IItemService
         _itemRepository = itemRepository;
     }
     
-    public IEnumerable<Item> GetItems() => _itemRepository.GetItems();
+    public Task<IEnumerable<Item>> GetItemsAsync() => _itemRepository.GetItems();
 
-    public void AddItem(Item item)
-    {
-        _itemRepository.AddItem(item);
-    }
+    public Task AddItemAsync(Item item) => _itemRepository.AddItem(item);
 }

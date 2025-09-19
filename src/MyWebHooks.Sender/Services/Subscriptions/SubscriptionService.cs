@@ -13,10 +13,10 @@ public class SubscriptionService : ISubscriptionService
         _subscriptionRepository = subscriptionRepository;
     }
 
-    public IEnumerable<WebhookSubscription> GetAllByEventType(SubEventType eventType) => 
+    public Task<IEnumerable<WebhookSubscription>> GetAllByEventType(SubEventType eventType) => 
         _subscriptionRepository.GetAllByEventType(eventType);
 
-    public string Create(WebhookSubscriptionDto subscription)
+    public Task<string> Create(WebhookSubscriptionDto subscription)
     {
         WebhookSubscription newSubscription = new()
         {
@@ -27,7 +27,6 @@ public class SubscriptionService : ISubscriptionService
             UniqueName = subscription.UniqueName,
         };
         
-        var id = _subscriptionRepository.Create(newSubscription);
-        return id;
+        return _subscriptionRepository.Create(newSubscription);
     }
 }

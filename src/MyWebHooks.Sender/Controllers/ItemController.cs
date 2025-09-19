@@ -1,7 +1,5 @@
 using System.Text.Json;
 using System.Threading.Channels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using MyWebHooks.Infrastructure.Models;
 using MyWebHooks.Sender.Services;
@@ -34,7 +32,7 @@ namespace MyWebHooks.Sender.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Item>> Get()
         {
-            return Ok(_itemService.GetItems());    
+            return Ok(_itemService.GetItemsAsync());    
         }
 
         [HttpPost(Name = "PostItem")]
@@ -43,12 +41,12 @@ namespace MyWebHooks.Sender.Controllers
             try
             {
                 item.Id = Guid.CreateVersion7().ToString();
-                _itemService.AddItem(item);
+                await _itemService.AddItemAsync(item);
                 _logger.LogInformation("Item {ItemId} has been added", item.Id);
 
                 var serializedItem = JsonSerializer.Serialize(item);
                 var createdEvent = _eventService.Create(serializedItem, SubEventType.ItemAdded);
-                var subscriptions = _subscriptionService.GetAllByEventType(SubEventType.ItemAdded);
+                var subscriptions = await _subscriptionService.GetAllByEventType(SubEventType.ItemAdded);
                 foreach (var subscription in subscriptions)
                 {
                     await _channel.Writer.WriteAsync(new SenderChannelRequest(subscription, createdEvent), token);

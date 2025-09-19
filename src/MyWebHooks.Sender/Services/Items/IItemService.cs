@@ -4,6 +4,6 @@ namespace MyWebHooks.Sender.Services.Items;
 
 public interface IItemService
 {
-    IEnumerable<Item> GetItems();
-    void AddItem(Item item);
+    Task<IEnumerable<Item>> GetItemsAsync();
+    Task AddItemAsync(Item item);
 }

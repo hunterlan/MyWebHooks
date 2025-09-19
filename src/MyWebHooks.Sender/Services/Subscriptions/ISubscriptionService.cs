@@ -5,6 +5,6 @@ namespace MyWebHooks.Sender.Services.Subscriptions;
 
 public interface ISubscriptionService
 {
-    IEnumerable<WebhookSubscription> GetAllByEventType(SubEventType eventType);
-    string Create(WebhookSubscriptionDto subscription);
+    Task<IEnumerable<WebhookSubscription>> GetAllByEventType(SubEventType eventType);
+    Task<string> Create(WebhookSubscriptionDto subscription);
 }
